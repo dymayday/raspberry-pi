@@ -22,5 +22,6 @@ $PACMAN $PACKAGES
 declare -a section_array=("terminal" "tmux" "rust")
 for section in "${section_array[@]}"; do
     echo "Setting up '${section}'..."
-    # bash ./$section/install.sh
+    bash ./$section/install.sh
+    echo ""
 done

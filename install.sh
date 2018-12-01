@@ -5,12 +5,12 @@ UNAME=`uname -r`
 if [[ "$UNAME" == *"ARCH" ]]; then
     # Let's update the packages sources
     sudo pacman -Syyu
-    # sudo pacman -S yaourt
-    PACMAN="yaourt -S"
+    sudo pacman -S yaourt
+    PACMAN="yaourt --noconfirm -S"
 else
     # Let's update the packages sources
     sudo apt update
-    PACMAN="sudo apt install"
+    PACMAN="sudo apt -y install"
 fi
 
 # Let's install the programs now

@@ -27,9 +27,7 @@ if [[ ! -s $BUNDLE_DIR/Vundle.vim ]]; then
     mkdir -p $HOME/.fzf && git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf && $HOME/.fzf/install
 
     vim +PluginInstall +qall
-    vim +PluginUpdate +qall
 fi
 
 # And then, let's install the plugins from the configuration file: 'vimrc'
-# vim +PluginInstall +qall
 # vim +PluginUpdate +qall

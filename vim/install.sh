@@ -14,6 +14,7 @@ cp ${DIR}/vimrc $HOME/.vimrc
 
 # Let's install 'Vundle', a plugins helper for Vim
 BUNDLE_DIR="$HOME/.vim/bundle"
+[ -s $BUNDLE_DIR ] && rm -rf $BUNDLE_DIR
 if [[ ! -s $BUNDLE_DIR/Vundle.vim ]]; then
     mkdir -p $BUNDLE_DIR && git clone https://github.com/VundleVim/Vundle.vim.git ~/$BUNDLE_DIR/Vundle.vim
     mkdir -p $HOME/.fzf && git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf && $HOME/.fzf/install

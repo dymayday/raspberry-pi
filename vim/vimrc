@@ -19,7 +19,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/nerdtree'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'majutsushi/tagbar'
+" Plugin 'majutsushi/tagbar'
 Plugin 'xolox/vim-misc'
 "Plugin 'xolox/vim-easytags'
 Plugin 'wincent/terminus'
@@ -62,13 +62,13 @@ set wildmode=longest,list:full
 
 
 
-" Naturally, this needs to be set to wherever your rust
-" source tree resides.
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_rust_src_path = '$HOME/.multirust/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
-"let g:ycm_rust_src_path = '/home/meidhy/.multirust/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
+"Naturally, this needs to be set to wherever your rust
+"source tree resides.
+" let g:ycm_min_num_of_chars_for_completion = 1
+" let g:ycm_rust_src_path = '$HOME/.multirust/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
+" let g:ycm_rust_src_path = '/home/meidhy/.multirust/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
-" syntastic recommended settings
+"syntastic recommended settings
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -81,11 +81,11 @@ let g:syntastic_check_on_wq = 1
 let g:ycm_seed_identifiers_with_syntax = 1
 let g:ycm_add_preview_to_completeopt = 1
 
-"let g:syntastic_rust_checkers = ['cargo']
+" let g:syntastic_rust_checkers = ['cargo']
 let g:syntastic_rust_checkers = ['rustc']
 let g:racer_experimental_completer = 1
 
-"let g:rust_conceal_mod_path = 0
+" let g:rust_conceal_mod_path = 0
 
 let g:airline_powerline_fonts = 1
 let g:lightline = {
@@ -93,7 +93,7 @@ let g:lightline = {
   \ }
 let g:airline_theme='onedark'
 
-"let g:airline_theme='gruvbox'
+" let g:airline_theme='gruvbox'
 
 let g:airline#extensions#tabline#enabled = 1
 

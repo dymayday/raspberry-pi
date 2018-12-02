@@ -9,6 +9,9 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 # First, let's copy paste the right configuration file
 cp ${DIR}/vimrc $HOME/.vimrc
 
+# Let's check if the backup directory exists, and create it if it doesn't
+if [[ ! -d $HOME/.vim.backup ]]; then mkdir $HOME/.vim.backup ; fi
+
 # Let's install 'Vundle', a plugins helper for Vim
 if [[ ! -s $HOME/.vim/bundle/Vundle.vim ]]; then
     mkdir -p /opt/usr/.vim/bundle && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim

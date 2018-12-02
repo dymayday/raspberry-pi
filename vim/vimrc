@@ -78,12 +78,12 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_add_preview_to_completeopt = 1
+" let g:ycm_seed_identifiers_with_syntax = 1
+" let g:ycm_add_preview_to_completeopt = 1
 
 " let g:syntastic_rust_checkers = ['cargo']
-let g:syntastic_rust_checkers = ['rustc']
-let g:racer_experimental_completer = 1
+" let g:syntastic_rust_checkers = ['rustc']
+" let g:racer_experimental_completer = 1
 
 " let g:rust_conceal_mod_path = 0
 

@@ -1,14 +1,6 @@
-#export EDITOR=/usr/bin/nano
+# zgen is a prlugin/extension helper for the zsh shell, it's a must have, trust me
+export ZGEN_HOME="$HOME/.zgen"
 
 #export ZSH_TMUX_TERM="xterm-256color"
 #export ZSH_TMUX_TERM="screen-256color"
 # export TERM="xterm-256color"
-export NVM_DIR="/opt/usr/.nvm"
-#export NVM_DIR="$HOME/.nvm"
-export PATH="/opt/usr/.cargo/bin:$PATH"
-#export GOROOT="/opt/usr/.go"
-export GOROOT="/usr/lib/go"
-export PATH="$PATH:$GOROOT/bin"
-
-export CONDA_HOME="/opt/usr/anaconda3"
-export PYTHON_ENV="maelstrom"

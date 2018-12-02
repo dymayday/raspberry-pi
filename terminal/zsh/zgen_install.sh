@@ -3,13 +3,10 @@
 # Let's handle the 'zgen' installation process here
 
 # Gather some info about the whereabouts of the zgen directory
-source $HOME/.profile
+# source $HOME/.profile
 
 if [[ ! -s $ZGEN_HOME/zgen.zsh ]]; then
     git clone https://github.com/tarjoilija/zgen.git "$ZGEN_HOME"
-    mkdir -p /opt/usr/.vim/bundle && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-    vim +PluginInstall +qall
-    git clone --depth 1 https://github.com/junegunn/fzf.git /opt/usr/.fzf && /opt/usr/.fzf/install
 fi
 
 # Install all the plugins we need to have a happy life as a developer :)

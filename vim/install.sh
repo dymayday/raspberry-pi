@@ -10,7 +10,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 cp ${DIR}/vimrc $HOME/.vimrc
 
 # Let's check if the backup directory exists, and create it if it doesn't
-if [[ ! -d $HOME/.vim.backup ]]; then mkdir $HOME/.vim.backup ; fi
+[ ! -s $HOME/.vim.backup ] && mkdir $HOME/.vim.backup
 
 # Let's install 'Vundle', a plugins helper for Vim
 if [[ ! -s $HOME/.vim/bundle/Vundle.vim ]]; then

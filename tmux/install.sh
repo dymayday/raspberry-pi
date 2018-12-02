@@ -6,6 +6,11 @@ TPM_DIR="$HOME/.tmux/plugins/tpm"
 # Get the directory path of the script
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
-if [[ -s $TPM_DIR ]]; then rm -rf $TPM_DIR ; fi
+# Let's clean up potential previous installs
+[ -s $TPM_DIR ] && rm -rf $TPM_DIR
+
+# And install the plugin manager
 git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+
+# And the configuration file
 cp ${DIR}/tmux.conf $HOME/.tmux.conf

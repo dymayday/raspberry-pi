@@ -24,7 +24,7 @@ echo "Installing ${PACKAGES}..."
 $PACMAN $PACKAGES
 
 # Let's loop on every section's directory and run their install script
-declare -a section_array=("terminal" "tmux" "rust")
+declare -a section_array=("terminal" "tmux" "vim" "neovim" "rust")
 for section in "${section_array[@]}"; do
     echo "Setting up '${section}'..."
     # cd ${DIR}/${section}

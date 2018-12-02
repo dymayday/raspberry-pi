@@ -19,14 +19,10 @@ for toolchain in "${toolchain_arr[@]}"; do
     rustup component add rust-src --toolchain $toolchain
     rustup component add rust-analysis --toolchain $toolchain
     rustup component add rls-preview --toolchain $toolchain
-    rustup component add rust-analysis --toolchain $toolchain
-    rustup component add rust-src --toolchain $toolchain
     rustup component add rustfmt-preview --toolchain $toolchain
-    rustup component add clippy-preview --toolchain $toolchain
 done
 
 rustup default nightly
 
-cargo install -j7 --force cargo-update fd-find exa tealdeer skim bat 
+cargo install -j7 --force cargo-update fd-find exa skim bat 
 RUSTFLAGS="-C target-cpu=native" cargo install --force ripgrep --features 'simd-accel avx-accel'
-tldr -u

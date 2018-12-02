@@ -3,7 +3,10 @@
 # Let's handle the 'zgen' installation process here
 
 # Gather some info about the whereabouts of the zgen directory
-# source $HOME/.profile
+source $HOME/.profile
+
+# Let's clen up any previous install
+[ -s $ZGEN_HOME ] && rm -rf $ZGEN_HOME
 
 if [[ ! -s $ZGEN_HOME/zgen.zsh ]]; then
     git clone https://github.com/tarjoilija/zgen.git "$ZGEN_HOME"

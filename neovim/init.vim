@@ -57,7 +57,7 @@ Plug 'ncm2/ncm2'
 " ncm2 requires nvim-yarp
 Plug 'roxma/nvim-yarp'
 
-" " Snippers support
+" " Snippets support
 " " Track the engine
 " Plug 'SirVer/ultisnips'
 " " Snippets are separated from the engine. So we need to add this:

@@ -24,5 +24,4 @@ done
 
 rustup default nightly
 
-cargo install cargo-update fd-find exa skim bat
-RUSTFLAGS="-C target-cpu=native" cargo install --force ripgrep --features 'simd-accel avx-accel'
+cargo install cargo-update ripgrep fd-find exa skim bat

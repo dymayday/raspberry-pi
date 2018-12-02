@@ -17,4 +17,5 @@ cp ${DIR}/bash/bash_aliases $HOME/.bash_aliases
 cp ${DIR}/bash/bash_profile $HOME/.bash_profile
 
 # Next, we need to install the zsh plugin manager
-bash ${DIR}/zsh/zgen_install.sh
+# bash ${DIR}/zsh/zgen_install.sh
+zsh

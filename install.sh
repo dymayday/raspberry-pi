@@ -19,7 +19,7 @@ else
 fi
 
 # Let's install the programs now
-PACKAGES="vim neovim htop git"
+PACKAGES="vim neovim htop git openssl libssl-dev"
 echo "Installing ${PACKAGES}..."
 $PACMAN $PACKAGES
 

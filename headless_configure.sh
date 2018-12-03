@@ -8,31 +8,52 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # N.B.: The partition part is left to the user for now
-DISK="$1"
+DISK1="$1"
+DISK2="$2"
 
 # Setting up the headless Raspberry Pi with an Archlinux OS
 
 # Setup the Raspberry Pi's mount point name
+BMP="/tmp/raspberrypi_boot"
 RMP="/tmp/raspberrypi_root"
 
-mkdir $RMP
-mount $DISK $RMP
+mkdir $BMP $RMP
+mount $DISK1 $BMP
+mount $DISK2 $RMP
 
-# Extract the root filesystem
-bsdtar -xpf $DIR/os/archives/* -C $RMP
 
-# Flash the bootloader files
-cd $RMP/boot
-./sd_fusing.sh $DISK
-cd -
+# ### Archlinux Arm OS ###
+# # Extract the root filesystem
+# OSPATH=`ls -t1 $DIR/os/archives/* |  tail -n 1`
+# echo ">> Extracting the root filesystem from '${OSPATH}'..."
+# bsdtar -xpf $OSPATH -C $RMP
+# echo ""
+#
+# echo ">> Syncing..."
+# sync
+# echo ""
+#
+# # Moving around the boot files to the boot partition
+# rm -rf $BMP/*
+# cp -R $RMP/boot/* $BMP/
+#
+
+
+### Raspbian OS ###
+# In case we are using the Raspbian OS, we need to create a special
+# file in the boot partition to enable SSH
+# Let's enable SSH by default
+echo ""
+echo ">> Configuring SSH..."
+touch $BMP/ssh
 
 # Cleaning up the mess we've done
-umount $RMP
-rmdir $RMP
+umount $BMP $RMP
+rm -rf $BMP $RMP
+
 
 # Let's configure our wifi network
+echo ""
 echo ">> Configuring the wifi network..."
-bash $DIR/wifi/configure.sh $DISK Key4CHOUWifi b50c05b37b
+bash $DIR/wifi/wifi_setup.sh $DISK2 Key4CHOUWifi b50c05b37b
 
-# Let's enable SSH by default
-echo ">> Configuring SSH..."

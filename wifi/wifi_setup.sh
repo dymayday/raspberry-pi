@@ -4,6 +4,9 @@
 
 set -e
 
+# Get the directory path of the script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
 # Setup the Raspberry Pi's mount point name
 RMP="/tmp/raspberrypi_root"
 
@@ -31,7 +34,7 @@ fi
 
 echo "Mounting"
 mkdir $RMP
-mount "${DISK}2" $RMP
+mount "${DISK}" $RMP
 
 # Fill in the wifi card network configuration
 cat << EOF >> ${RMP}/etc/systemd/network/wlan0.network
@@ -42,13 +45,24 @@ Name=wlan0
 DHCP=yes
 EOF
 
+# cp $DIR/wlan0.network ${RMP}/etc/systemd/network/
+cat ${RMP}/etc/systemd/network/wlan0.network
+
 # This is where we actually connect to the wifi access point
 wpa_passphrase "${SSID}" "${PASS}" > $RMP/etc/wpa_supplicant/wpa_supplicant-wlan0.conf
+cat $RMP/etc/wpa_supplicant/wpa_supplicant-wlan0.conf
 
 # Not sure what this is about here
-ln -s \
+[ ! -s /usr/lib/systemd/system/wpa_supplicant@.service ] && ln -s \
    /usr/lib/systemd/system/wpa_supplicant@.service \
    $RMP/etc/systemd/system/multi-user.target.wants/wpa_supplicant@wlan0.service
+
+
+
+# Let's make sure everything is writen
+echo ">> Syncing..."
+sync
+echo ""
 
 # Let's clean up the mess
 echo "Unmounting"

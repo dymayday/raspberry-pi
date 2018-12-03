@@ -10,6 +10,8 @@ UNAME=`uname -r`
 if [[ "$UNAME" == *"ARCH" ]]; then
     # Let's update the packages sources
     sudo pacman -Syyu
+    pacman-key --init
+    pacman-key --populate archlinuxarm
     sudo pacman -S yaourt
     PACMAN="yaourt --noconfirm -S"
 else
@@ -19,7 +21,7 @@ else
 fi
 
 # Let's install the programs now
-PACKAGES="vim neovim htop git openssl libssl-dev zsh"
+PACKAGES="vim neovim htop git openssl libssl-dev zsh tmux"
 echo "Installing ${PACKAGES}..."
 $PACMAN $PACKAGES
 

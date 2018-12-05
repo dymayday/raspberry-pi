@@ -1,0 +1,7 @@
+[package]
+name = "ss-client"
+version = "0.1.0"
+authors = ["dymayday <dymayday@gmail.com>"]
+edition = "2018"
+
+[dependencies]

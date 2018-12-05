@@ -10,6 +10,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 # N.B.: The partition part is left to the user for now
 DISK1="$1"
 DISK2="$2"
+SSID="${3:-Key4CHOUWifi}"
+WPAPASS="${4:-b50c05b37b}"
 
 # Setting up the headless Raspberry Pi with an Archlinux OS
 
@@ -55,5 +57,5 @@ rm -rf $BMP $RMP
 # Let's configure our wifi network
 echo ""
 echo ">> Configuring the wifi network..."
-bash $DIR/wifi/wifi_setup.sh $DISK2 Key4CHOUWifi b50c05b37b
+bash $DIR/wifi/wifi_setup.sh $DISK2 $SSID $WPAPASS
 

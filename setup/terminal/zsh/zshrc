@@ -151,8 +151,12 @@ if [[ -s $CARGO_HOME/env ]]; then
     export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src/"
 fi
 
-
-export BULLETTRAIN_PROMPT_ORDER=(time context status custom dir virtualenv git cmd_exec_time)
+# Print the context if we are in a SSH connection
+if [[ "$SSH_CONNECTION" ]]; then
+    export BULLETTRAIN_PROMPT_ORDER=(time context status custom dir virtualenv git cmd_exec_time)
+else
+    export BULLETTRAIN_PROMPT_ORDER=(time status custom dir virtualenv git cmd_exec_time)
+fi
 export BULLETTRAIN_VIRTUALENV_BG="green"
 export BULLETTRAIN_VIRTUALENV_FG="black"
 # export BULLETTRAIN_DIR_BG="cyan"

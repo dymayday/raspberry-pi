@@ -45,12 +45,19 @@ Name=wlan0
 DHCP=yes
 EOF
 
-# cp $DIR/wlan0.network ${RMP}/etc/systemd/network/
+# With this, we make sure this file is properly created on the sd card
+cp $DIR/wlan0.network ${RMP}/etc/systemd/network/
+echo ""
+echo "wlan0.network content:"
 cat ${RMP}/etc/systemd/network/wlan0.network
+echo ""
 
 # This is where we actually connect to the wifi access point
 wpa_passphrase "${SSID}" "${PASS}" > $RMP/etc/wpa_supplicant/wpa_supplicant-wlan0.conf
+echo ""
+echo "wpa_supplicant-wlan0 content:"
 cat $RMP/etc/wpa_supplicant/wpa_supplicant-wlan0.conf
+echo ""
 
 # Not sure what this is about here
 [ ! -s /usr/lib/systemd/system/wpa_supplicant@.service ] && ln -s \

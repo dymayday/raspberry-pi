@@ -15,6 +15,7 @@ cp ${DIR}/vimrc $HOME/.vimrc
 # Let's install 'Vundle', a plugins helper for Vim
 BUNDLE_DIR="$HOME/.vim/bundle"
 
+### Vundle plugin manager ###
 # Install the plugin manager
 if [[ ! -s $BUNDLE_DIR/Vundle.vim ]]; then
 
@@ -26,8 +27,17 @@ if [[ ! -s $BUNDLE_DIR/Vundle.vim ]]; then
     [ -s $HOME/.fzf ] && rm -rf $HOME/.fzf
     mkdir -p $HOME/.fzf && git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf && $HOME/.fzf/install
 
-    vim +PluginInstall +qall
 fi
 
+
+# ### Vim-Plug plugin manager ###
+# VPDIR="$HOME/.vim/autoload/plug.vim"
+# if [[ ! -s $VDIR ]]; then
+#     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+#         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+#
+# fi
+
 # And then, let's install the plugins from the configuration file: 'vimrc'
-# vim +PluginUpdate +qall
+# vim +PluginInstall +qall
+vim +PluginUpdate +qall

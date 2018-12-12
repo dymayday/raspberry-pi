@@ -8,8 +8,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 # N.B.: The partition part is left to the user for now
-DISK1="$1"
-DISK2="$2"
+DISK1="${1:-/dev/mmcblk0p1}"
+DISK2="${2:-/dev/mmcblk0p2}"
 SSID="${3:-Key4CHOUWifi}"
 WPAPASS="${4:-b50c05b37b}"
 

@@ -21,7 +21,7 @@ else
 fi
 
 # Let's install the programs now
-PACKAGES="vim neovim htop git openssl libssl-dev zsh tmux cmake"
+PACKAGES="vim neovim htop git openssl libssl-dev zsh tmux cmake bluez bluez-hcidump bluez-tools libpcap-dev"
 echo "Installing ${PACKAGES}..."
 $PACMAN $PACKAGES
 

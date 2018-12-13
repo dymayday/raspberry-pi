@@ -12,16 +12,31 @@ cp ${DIR}/vimrc $HOME/.vimrc
 # Let's check if the backup directory exists, and create it if it doesn't
 [ ! -s $HOME/.vim.backup ] && mkdir $HOME/.vim.backup
 
-# Let's install 'Vundle', a plugins helper for Vim
-BUNDLE_DIR="$HOME/.vim/bundle"
+# Vim plugin manager install part:
 
-### Vundle plugin manager ###
-# Install the plugin manager
-if [[ ! -s $BUNDLE_DIR/Vundle.vim ]]; then
+# # Let's install 'Vundle', a plugins helper for Vim
+# BUNDLE_DIR="$HOME/.vim/bundle"
+#
+# ### Vundle plugin manager ###
+# # Install the plugin manager
+# if [[ ! -s $BUNDLE_DIR/Vundle.vim ]]; then
+#
+#     # Let's clen up any previous install
+#     [ -s $BUNDLE_DIR ] && rm -rf $BUNDLE_DIR
+#     mkdir -p $BUNDLE_DIR && git clone https://github.com/VundleVim/Vundle.vim.git $BUNDLE_DIR/Vundle.vim
+#
+#     # Fuzzy finder handler
+#     [ -s $HOME/.fzf ] && rm -rf $HOME/.fzf
+#     mkdir -p $HOME/.fzf && git clone --depth 1 https://github.com/junegunn/fzf.git $HOME/.fzf && $HOME/.fzf/install
+#
+# fi
 
-    # Let's clen up any previous install
-    [ -s $BUNDLE_DIR ] && rm -rf $BUNDLE_DIR
-    mkdir -p $BUNDLE_DIR && git clone https://github.com/VundleVim/Vundle.vim.git $BUNDLE_DIR/Vundle.vim
+
+### Vim-Plug plugin manager ###
+VPDIR="$HOME/.vim/autoload/plug.vim"
+if [[ ! -s $VPDIR ]]; then
+    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
     # Fuzzy finder handler
     [ -s $HOME/.fzf ] && rm -rf $HOME/.fzf
@@ -29,15 +44,7 @@ if [[ ! -s $BUNDLE_DIR/Vundle.vim ]]; then
 
 fi
 
-
-# ### Vim-Plug plugin manager ###
-# VPDIR="$HOME/.vim/autoload/plug.vim"
-# if [[ ! -s $VDIR ]]; then
-#     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-#         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-#
-# fi
-
 # And then, let's install the plugins from the configuration file: 'vimrc'
+vim +PluginClean +qall
 # vim +PluginInstall +qall
 vim +PluginUpdate +qall

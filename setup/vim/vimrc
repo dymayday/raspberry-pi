@@ -1,195 +1,154 @@
-set nocompatible              " be iMproved, required
-filetype off                  " required
 
-" set the runtime path to include Vundle and initialize
-set rtp+=$HOME/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-" 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-" Plugin 'Valloric/YouCompleteMe'
-Plugin 'Syntastic'
-Plugin 'rust-lang/rust.vim'
-" Plugin 'racer-rust/vim-racer'
-Plugin 'itchyny/lightline.vim'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'tpope/vim-fugitive'
-Plugin 'scrooloose/nerdtree'
-Plugin 'airblade/vim-gitgutter'
-Plugin 'scrooloose/nerdcommenter'
-" Plugin 'majutsushi/tagbar'
-Plugin 'xolox/vim-misc'
-"Plugin 'xolox/vim-easytags'
-Plugin 'wincent/terminus'
-Plugin 'ervandew/supertab'
+" Specify a directory for plugins
+" - For Neovim: ~/.local/share/nvim/plugged
+" - Avoid using standard Vim directory names like 'plugin'
+filetype off
+call plug#begin('~/.vim/plugged')
 
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+Plug 'scrooloose/nerdtree'
+" Add fancy icons to NerdTree
+" Plug 'ryanoasis/vim-devicons'
+Plug 'scrooloose/nerdcommenter'
+Plug 'tomtom/tcomment_vim'
 
-" Color Theme
-Plugin 'joshdick/onedark.vim'
-Plugin 'morhetz/gruvbox'
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'nightsense/vimspectr'
-Plugin 'crater2150/vim-theme-chroma'
-Plugin 'lifepillar/vim-solarized8'
+" Ouline viewer
+" Plug 'majutsushi/tagbar'
 
-"Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
-"(see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-"if (empty($TMUX))
-"  if (has("nvim"))
-"    "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-"    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-"  endif
-"  "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"  "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-"  " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-"  if (has("termguicolors"))
-"    set termguicolors
-"  endif
-"endif
-let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-"set termguicolors
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-filetype plugin on
-set wildmenu
-set wildmode=longest,list:full
+" Obscure but powerfull plugins.
+Plug 'Shougo/denite.nvim'
+Plug 'Shougo/unite-outline'
+" TagBar alternat using CtrlP
+Plug 'tacahiroy/ctrlp-funky'
+
+" Show parameter doc.
+" Plug 'Shougo/echodoc.vim'
+
+" Auto insert semi colon at the end of Rust file YaY ! =]
+Plug 'tpope/vim-repeat'
+Plug 'lfilho/cosco.vim'
+
+" Relative line number
+Plug 'myusuf3/numbers.vim'
+
+" Git
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
+Plug 'wincent/terminus'
+Plug 'ervandew/supertab'
 
 
+" LANGUAGE SUPPORT
+" Automatically close parenthesis, etc
+" Plug 'jiangmiao/auto-pairs'
+Plug 'Raimondi/delimitMate'
 
-"Naturally, this needs to be set to wherever your rust
-"source tree resides.
-" let g:ycm_min_num_of_chars_for_completion = 1
-" let g:ycm_rust_src_path = '$HOME/.multirust/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
-" let g:ycm_rust_src_path = '/home/meidhy/.multirust/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
+" Color parenthesis and such
+Plug 'luochen1990/rainbow'
 
-"syntastic recommended settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+" Add beautifull bookmarks
+Plug 'MattesGroeger/vim-bookmarks'
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 0
-let g:syntastic_check_on_wq = 1
+" Autocomplete plugin
+" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
-" let g:ycm_seed_identifiers_with_syntax = 1
-" let g:ycm_add_preview_to_completeopt = 1
+" Completetion manager. New and way better than deoplete
+Plug 'ncm2/ncm2'
+" ncm2 requires nvim-yarp
+Plug 'roxma/nvim-yarp'
 
-" let g:syntastic_rust_checkers = ['cargo']
-" let g:syntastic_rust_checkers = ['rustc']
-" let g:racer_experimental_completer = 1
+" Snippers support
+" Track the engine
+Plug 'SirVer/ultisnips'
+" Snippets are separated from the engine. So we need to add this:
+Plug 'honza/vim-snippets'
+Plug 'ncm2/ncm2-ultisnips'
 
-" let g:rust_conceal_mod_path = 0
+Plug 'ncm2/ncm2-path'
+Plug 'ncm2/ncm2-jedi'
+" Commenting out this one because it create duplicate entry with RLS.
+" Plug 'ncm2/ncm2-racer'
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-neoinclude' | Plug 'Shougo/neoinclude.vim'
+Plug 'ncm2/ncm2-syntax' | Plug 'Shougo/neco-syntax'
+" Plug 'ncm2/ncm2-match-highlight'
 
+" Better language packs
+Plug 'sheerun/vim-polyglot'
+
+" " Rust
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'make release',
+"     \ }
+" Plug 'sebastianmarkow/deoplete-rust'
+" Plug 'rust-lang/rust.vim'
+
+" Python
+" Plug 'zchee/deoplete-jedi', { 'do': ':UpdateRemotePlugins' }
+" Just to add the python go-to-definition and similar features, autocompletion
+" from this plugin is disabled
+Plug 'davidhalter/jedi-vim'
+
+" Linter
+Plug 'w0rp/ale'
+
+
+" Multi-entry selection UI.
+Plug 'junegunn/fzf'
+Plug 'junegunn/fzf.vim'
+" Full path fuzzy file, buffer, mru, tag, ... finder for Vim.
+Plug 'ctrlpvim/ctrlp.vim'
+" This is an extension for the awesome vim CtrlP plugin.
+Plug 'fisadev/vim-ctrlp-cmdpalette'
+
+
+" Some pretty things
+" Airline theme
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Color themes
+Plug 'morhetz/gruvbox'
+Plug 'joshdick/onedark.vim'
+Plug 'chriskempson/base16-vim'
+
+" A plugin to color colornames and codes
+Plug 'chrisbra/Colorizer'
+
+
+call plug#end()
+filetype on
+
+"let g:gruvbox_improved_strings = 1
+"let g:gruvbox_improved_warnings = 1
+
+
+let base16colorspace=256 " Access colors present in 256 colorspace
+" Activating color theme
+set background=dark      " Setting dark mode
+"set background=light    " Setting light mode
+set termguicolors 		 " This is needed for quit some recent theme nowadays
+let g:gruvbox_contrast_dark = 'medium' "Possible values: soft, medium and hard
+silent! colorscheme onedark
+silent! colorscheme gruvbox
+
+" Airline settings
 let g:airline_powerline_fonts = 1
-let g:lightline = {
-  \ 'colorscheme': 'onedark',
-  \ }
-let g:airline_theme='onedark'
-
-" let g:airline_theme='gruvbox'
-
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_theme='deus'
+"let g:airline_theme='bubblegum'
 
 
+" Select commands to be executed by default
+let g:ctrlp_cmdpalette_execute = 1
 
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just
-" :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" " :PluginClean      - confirms removal of unused plugins; append `!` to
-" auto-approve removal
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" Set the cmd height for a better echodoc integration
+let g:echodoc#enable_at_startup = 1
+set cmdheight=1
 
 
-" All system-wide defaults are set in $VIMRUNTIME/debian.vim and sourced by
-" the call to :runtime you can find below.  If you wish to change any of those
-" settings, you should do it in this file (/etc/vim/vimrc), since debian.vim
-" will be overwritten everytime an upgrade of the vim packages is performed.
-" It is recommended to make changes after sourcing debian.vim since it alters
-" the value of the 'compatible' option.
-
-" This line should not be removed as it ensures that various options are
-" properly set to work with the Vim-related packages available in Debian.
-"runtime! debian.vim
-
-" Use pathogen to easily modify the runtime path to include all
-" plugins under the ~/.vim/bundle directory
-"call pathogen#helptags()
-" call pathogen#runtime_append_all_bundles()
-
-" Uncomment the next line to make Vim more Vi-compatible
-" NOTE: debian.vim sets 'nocompatible'.  Setting 'compatible' changes numerous
-" options, so any other options should be set AFTER setting 'compatible'.
-"set compatible
-
-" Vim5 and later versions support syntax highlighting. Uncommenting the next
-" line enables syntax highlighting by default.
-if has("syntax")
-  syntax on
-endif
-if has('autocmd')
-    autocmd filetype python set expandtab
-endif
-
-
-" If using a dark background within the editing area and syntax highlighting
-" turn on this option as well
-set background=dark
-
-" Uncomment the following to have Vim jump to the last position when
-" reopening a file
-"if has("autocmd")
-"  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-"endif
-
-" Uncomment the following to have Vim load indentation rules and plugins
-" according to the detected filetype.
-if has("autocmd")
-  filetype plugin indent on
-endif
-
-" The following are commented out as they cause vim to behave a lot
-" differently from regular Vi. They are highly recommended though.
-set showcmd     " Show (partial) command in status line.
-"set showmatch      " Show matching brackets.
-"set ignorecase     " Do case insensitive matching
-"set smartcase      " Do smart case matching
-"set incsearch      " Incremental search
-"set autowrite      " Automatically save before commands like :next and :make
-set hidden      " Hide buffers when they are abandoned
-set mouse=a     " Enable mouse usage (all modes)
-
-
-set laststatus=2    " Show statusline
-set noshowmode      " get rid of -- INSERT --
-if !has('gui_running')
-      set t_Co=256
-endif
-
-syntax on
-
-
-
-" Source a global configuration file if available
-if filereadable("/etc/vim/vimrc.local")
-  source /etc/vim/vimrc.local
-endif
-
-"execute pathogen#infect()
-filetype plugin indent on
-
+" Common settings
 set tabstop=4     " a tab is four spaces
 set autoindent    " always set autoindenting on
 set copyindent    " copy the previous indentation on autoindenting
@@ -205,48 +164,255 @@ set smarttab      " insert tabs on the start of a line according to
 set hlsearch      " highlight search terms
 set incsearch     " show search matches as you type
 set history=10000 " remember more commands and search history
-set undolevels=1000      " use many muchos levels of undo
+set undolevels=1000 " use many muchos levels of undo
 set title         " change the terminal's title
 set mouse=a
-let mapleader="<"	" change leader key from '\' to '<'
+" let mapleader="<"   " change leader key from '\' to '<'
 set timeout timeoutlen=2000
+set showcmd       " Show (partial) command in status line.
+set noshowmode    " get rid of -- INSERT --
+set hidden        " Hide buffers when they are abandoned
+set expandtab     " Uses space instead of tabs
+set scrolloff=1   " Always show at least one line above/below the cursor
+"set wildmenu
+"set wildmode=longest,list:full
 
+" Map leader to '<' and ',' as well
+map , <leader>
+" map < <leader>
+
+" Copy to clipboard
+nnoremap  <leader>y  "+y
+vnoremap  <leader>y  "+y
+
+" Paste from clipboard
+nnoremap <leader>p  "+p
+vnoremap <leader>p  "+p
+
+" Auto insert semicolon using cosco
+let g:cosco_ignore_comment_lines = 1     " Default : 0
+"let g:auto_comma_or_semicolon = 1        " Default : 0, way too experimental
+let g:cosco_filetype_whitelist = ['rust']
+autocmd FileType rust nmap <silent> <Leader>; <Plug>(cosco-commaOrSemiColon)
+autocmd FileType rust imap <silent> <Leader>; <c-o><Plug>(cosco-commaOrSemiColon)
+autocmd FileType rust imap <silent> <Leader>o <c-o><Plug>(cosco-commaOrSemiColon)<ESC>o
+autocmd FileType rust nmap <silent> <Leader>o <Plug>(cosco-commaOrSemiColon)<ESC>o
+
+" Run Rust program by pressing F4
+nmap <F4> :Cargo run<CR>
 
 set backup
 set backupdir=$HOME/.vim.backup
 
-" Custom Key Map
-"
-"Toggle Tagbar with the b key
-nnoremap <silent> <Leader>b :TagbarToggle<CR>   
-nmap <F8> :TagbarToggle<CR>
+if !has('gui_running')
+      set t_Co=256
+endif
+
+" numbers.vim settings - Toggle relative line numbering
+nnoremap <F9> :NumbersToggle<CR>
+let g:enable_numbers = 0
+
+
+" ctags configuration
+" autocmd BufRead *.rs :setlocal tags=./rusty-tags.vi;/,$RUST_SRC_PATH/rusty-tags.vi
+" autocmd BufWritePost *.rs :silent! exec "!rusty-tags vi --quiet --start-dir=" . expand('%:p:h') . "&" | redraw!
+
+" TagBar setup
+" nmap <F8> :TagbarToggle<CR>
+" let g:tagbar_type_rust = {
+"     \ 'ctagstype' : 'rust',
+"     \ 'kinds' : [
+"         \'T:types,type definitions',
+"         \'f:functions,function definitions',
+"         \'g:enum,enumeration names',
+"         \'s:structure names',
+"         \'m:modules,module names',
+"         \'c:consts,static constants',
+"         \'t:traits',
+"         \'i:impls,trait implementations',
+"         \]
+"     \}
+
+
+" ctrlp-funky is a TagBar alternat using CtrlP
+let g:ctrlp_funky_syntax_highlight = 1
+" This allows you to switch to no-limit mode.
+let g:ctrlp_funky_nolim = 1
+nnoremap <Leader>fu :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
+
+
+" NERDTree config
 nmap <F7> :NERDTreeToggle<CR>
+" Auto close NERDTree when left alone
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | en
 
-"au VimEnter *  NERDTree
-"function! StartUp()
-	"if 0 == argc()
-		"NERDTree
-	"end
-"endfunction
-"autocmd VimEnter * call StartUp() 	"autostart nerdtree at startup
-"autocmd VimEnter * wincmd p		"place the cursor on the file at startup instead of the nerdtree
+" Rainbow parenthesis toggle.
+nmap <F6> :RainbowToggle<CR>
 
-function! ToggleErrors()
-    if empty(filter(tabpagebuflist(), 'getbufvar(v:val, "&buftype") is# "quickfix"'))
-         " No location/quickfix list shown, open syntastic error location panel
-         Errors
-    else
-        lclose
-    endif
+" Auto-Pairs settings.
+let g:AutoPairsFlyMode = 1
+let g:AutoPairsShortcutBackInsert = '<M-b>'
+
+
+
+" LanguageClient-neovim settings
+autocmd BufReadPost *.rs setlocal filetype=rust
+" Disable linting for python files.
+autocmd FileType python let g:LanguageClient_diagnosticsEnable=0
+
+" Automatically start language servers.
+let g:LanguageClient_autoStart = 1
+let g:LanguageClient_selectionUI = "fzf"
+
+" call deoplete#custom#source(
+"             \ 'LanguageClient',
+"             \ 'min_pattern_length',
+"             \ 1)
+
+" Required for operations modifying multiple buffers like rename.
+set hidden
+
+" let g:LanguageClient_serverCommands = {
+"     \ 'rust': ['rustup', 'run', 'nightly', 'rls'],
+"     \ 'python': ['/home/home/junk/anaconda/envs/maelstrom/bin/pyls'],
+"     \ }
+" let g:deoplete#enable_at_startup = 1
+" let g:deoplete#sources#rust#racer_binary='/home/home/.cargo/bin/racer'
+" let g:deoplete#sources.rust = ['LanguageClient']
+" let g:deoplete#sources#rust#rust_source_path='/home/home/.multirust/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
+" "let g:deoplete#sources#rust#disable_keymap=1
+" "let g:deoplete#sources#rust#documentation_max_height=75
+" let g:deoplete#sources#rust#show_duplicates = 0
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Completion manager settings.
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+" :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+" ncm2-match-highlight config.
+" let g:ncm2#match_highlight = 'bold'
+let g:ncm2#match_highlight = 'sans-serif-bold'
+" Start autocompletion from ncm2 first character entered
+let g:ncm2#complete_length = 1
+
+
+
+" nnoremap <F5> :call LanguageClient_contextMenu()<CR>
+" "nnoremap <silent> K :call LanguageClient_textDocument_hover()<CR>
+" nnoremap <silent> <M-q> :call LanguageClient_textDocument_hover()<CR>
+" " nmap <buffer> <M-x> <plug>DeopleteRustShowDocumentation
+" " nmap <silent> <M-x> <plug>DeopleteRustShowDocumentation
+" " imap <buffer> <M-x> <plug>DeopleteRustShowDocumentation
+" nnoremap <silent> <M-f> :call LanguageClient_textDocument_formatting()<CR>
+" nnoremap <silent> <M-l> :call LanguageClient_textDocument_rangeFormatting()<CR>
+" nnoremap <silent> gd :call LanguageClient_textDocument_definition()<CR>
+" nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+
+" Toggle the lint panel
+command -bang -nargs=? QFix call QFixToggle(<bang>0)
+function! QFixToggle(forced)
+  if exists("g:qfix_win") && a:forced == 0
+    cclose
+    unlet g:qfix_win
+  else
+    copen 10
+    let g:qfix_win = bufnr("$")
+  endif
 endfunction
-nnoremap <F2> :<C-u>call ToggleErrors()<CR>
+" And map it
+nnoremap <F3> : <C-u> QFix <CR>
+
+" Switch back and forth from panel to panel
 nnoremap <Tab> <c-w>w
 
-nnoremap <leader>jd :YcmCompleter GoTo<CR>
+" Python env / exec config.
+" let g:python_host_prog="/home/home/junk/anaconda/envs/py2/bin/python"
+" let g:python3_host_prog="/home/home/junk/anaconda/envs/maelstrom/bin/python3.6"
+let g:SuperTabDefaultCompletionType = "<c-n>"
+inoremap <C-Space> <C-x><C-o>
+inoremap <C-@> <C-Space>
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#auto_completion_start_length = 1
+
+" Python settings
+" Disable autocompletion (using deoplete instead)
+let g:jedi#completions_enabled = 0
+
+" ALE setting
+let g:airline#extensions#ale#enabled = 1
+" Enable completion where available.
+"let g:ale_completion_enabled = 1 		" This is buggy with deoplete/LanguageClient-neovim
+" let g:ale_linters = {'rust': ['rls']}
+let g:airline#extensions#ale#enabled = 1
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+"let g:ale_open_list = 1
+"let g:ale_set_highlights = 0
+"let g:ale_sign_column_always = 0
+let g:ale_sign_info = 'ℹ'
+let g:ale_sign_warning = '⚠'
+let g:ale_sign_error = '✖'
+"let g:ale_open_list = 1
+" Let's disable ALE's linting by default
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:ale_lint_on_save = 0
 
 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-colorscheme onedark
-colorscheme gruvbox
-"colorscheme vimspectrgrey-dark
-"colorscheme solarized8_light_flat
+" Snippers setup up.
+" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+let g:UltiSnipsExpandTrigger="<m-s>"
+let g:UltiSnipsJumpForwardTrigger="<m-s>"
+let g:UltiSnipsJumpBackwardTrigger="<m-z>"
+" Press enter key to trigger snippet expansion
+" The parameters are the same as `:help feedkeys()`
+inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
+let g:UltiSnipsRemoveSelectModeMappings = 0
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+
+
+" CtrlP settings
+"let g:ctrlp_map = ''
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+
+" Vim-CtrlP-CmdPalette settings
+let g:ctrlp_cmdpalette_execute = 1
+
+"nmap <m-p> :CtrlPCmdPalette<CR>
+nmap <M-p> :CtrlPCmdPalette<CR>
+" Open file menu
+" nnoremap <Leader>o :CtrlP<CR>
+" Open buffer menu
+nnoremap <Leader>b :CtrlPBuffer<CR>
+" Open most recently used files
+nnoremap <Leader>f :CtrlPMRUFiles<CR>
+
+" fzf settings
+" This is the default extra key bindings
+let g:fzf_action = {
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+" Default fzf layout
+" - down / up / left / right
+let g:fzf_layout = { 'down': '~40%' }
+
+" In Neovim, you can set up fzf window using a Vim command
+let g:fzf_layout = { 'window': 'enew' }
+let g:fzf_layout = { 'window': '-tabnew' }
+let g:fzf_layout = { 'window': '10split enew' }
+
+"let g:ctrlp_user_command = 'rg %s -type f'        " MacOSX/Linux<Paste>
+"let g:ctrlp_user_command = 'rg --files --no-ignore --hidden --follow -g "!{.git,node_modules}/*" 2> /dev/null'        " MacOSX/Linux<Paste>
+let g:ctrlp_user_command = 'fd --type f'

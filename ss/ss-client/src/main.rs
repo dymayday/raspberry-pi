@@ -1,19 +1,55 @@
 extern crate chrono;
+#[macro_use(
+    slog_o,
+    slog_info,
+    slog_debug,
+    slog_warn,
+    slog_crit,
+    slog_log,
+    slog_record,
+    slog_record_static,
+    slog_b,
+    slog_kv
+)]
+extern crate slog;
+extern crate slog_async;
+#[macro_use]
+extern crate slog_scope;
+extern crate slog_term;
+
+use slog::Drain;
 
 mod data;
 
+
+/// Set a custom pretty timestamp format for the logging part.
+fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
+    write!(io, "{}", chrono::Local::now().format("%Y-%m-%d %H:%M:%S"))
+}
+
+
+/// Initialises our log facility by setting it as async and the timestamp format.
+fn init_log() -> slog::Logger {
+    let decorator = slog_term::TermDecorator::new().build();
+    let drain = slog_term::CompactFormat::new(decorator)
+        .use_custom_timestamp(custom_timestamp_local)
+        .build()
+        .fuse();
+    let drain = slog_async::Async::new(drain).build().fuse();
+    slog::Logger::root(drain, slog_o!())
+}
+
+
 fn main() {
     println!();
-
-    // use chrono::{SubsecRound, Utc};
-    // let ts = Utc::now();
-    //
-    // println!("dt = {:?}", ts);
-    // for i in 0..9 {
-    //     println!("dtr({}) = {:?}", i, ts.round_subsecs(i));
-    // }
+    // We need to init the logging facility in order to use it globally and asynchronously
+    let _guard = slog_scope::set_global_logger(init_log());
 
     use wifiscanner;
-    let wscan = wifiscanner::scan();
-    println!("Wifi scanner: {:#?}", wscan);
+    if let Ok(wscan) = wifiscanner::scan() {
+        println!("Wifi scanner: {:#?}", wscan);
+    }
+
+    let _network_cards = data::list_network_interfaces()
+        .expect("Fail to list the network cards on the system.");
 }

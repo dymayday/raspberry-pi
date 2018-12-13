@@ -2,11 +2,10 @@
 
 extern crate chrono;
 
-use std::io::Result as IOResult;
 use crate::data::Sensor;
 use chrono::prelude::*;
+use std::io::Result as IOResult;
 use wifiscanner::Wifi as AP; // AP is short for Access Point
-
 
 /// This is the data structure representing all the intel we can, or need to gather about the wifi.
 pub struct Wifi {
@@ -30,14 +29,10 @@ impl Wifi {
         }
     }
 
-
     // /// Retrieve the mac address of the wireless card.
     // fn mac_address() -> [char; 12] {
-    //     
+    //
     // }
-
-
-
 }
 
 impl Sensor for Wifi {

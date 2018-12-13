@@ -21,12 +21,10 @@ use slog::Drain;
 
 mod data;
 
-
 /// Set a custom pretty timestamp format for the logging part.
 fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
     write!(io, "{}", chrono::Local::now().format("%Y-%m-%d %H:%M:%S"))
 }
-
 
 /// Initialises our log facility by setting it as async and the timestamp format.
 fn init_log() -> slog::Logger {
@@ -39,17 +37,18 @@ fn init_log() -> slog::Logger {
     slog::Logger::root(drain, slog_o!())
 }
 
-
 fn main() {
     println!();
     // We need to init the logging facility in order to use it globally and asynchronously
     let _guard = slog_scope::set_global_logger(init_log());
 
-    use wifiscanner;
-    if let Ok(wscan) = wifiscanner::scan() {
-        println!("Wifi scanner: {:#?}", wscan);
-    }
+    let ifaces_hm =
+        data::list_network_interfaces().expect("Fail to list the network cards on the system.");
 
-    let _network_cards = data::list_network_interfaces()
-        .expect("Fail to list the network cards on the system.");
+    use wifiscanner;
+    for (iface, _mac) in &ifaces_hm {
+        if let Ok(wscan) = wifiscanner::scan(iface) {
+            println!("Scan from {}: {:#?}", iface, wscan);
+        }
+    }
 }

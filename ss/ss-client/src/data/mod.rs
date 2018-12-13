@@ -6,13 +6,11 @@
 mod wifi;
 
 pub use self::wifi::Wifi;
-use std::io::{Read, Result as IOResult};
 use std::collections::HashMap;
-
+use std::io::{Read, Result as IOResult};
 
 /// This is where we gather intel about the network capability of a Linux system.
 const NET_CARDS_ROOT_PATH: &str = "/sys/class/net/";
-
 
 pub trait Sensor {
     fn fetch(&mut self) -> IOResult<u32>;
@@ -29,9 +27,6 @@ pub trait Sensor {
 //     Io(IOError),
 // }
 
-
-
-
 /// List all the available network card on the system along with their mac addresses.
 pub fn list_network_interfaces() -> std::io::Result<HashMap<String, String>> {
     use walkdir::WalkDir;
@@ -40,7 +35,11 @@ pub fn list_network_interfaces() -> std::io::Result<HashMap<String, String>> {
 
     // First we need to list all the available network cards on the system
     // Skipping the first entry because it's the root path we are actually listing
-    for entry in WalkDir::new(NET_CARDS_ROOT_PATH).into_iter().filter_map(|p| p.ok()).skip(1) {
+    for entry in WalkDir::new(NET_CARDS_ROOT_PATH)
+        .into_iter()
+        .filter_map(|p| p.ok())
+        .skip(1)
+    {
         let path = entry.path().display().to_string();
 
         match path.split('/').collect::<Vec<&str>>().last() {
@@ -50,7 +49,6 @@ pub fn list_network_interfaces() -> std::io::Result<HashMap<String, String>> {
                 // Let's focus only on the wireless cards
                 // They should start with the letters "wl"
                 if iface_name.to_string().starts_with("wl") {
-
                     // And then, we fetch their mac addresses
                     let mac_address_file = std::path::Path::new(&path.to_owned()).join("address");
 
@@ -62,7 +60,7 @@ pub fn list_network_interfaces() -> std::io::Result<HashMap<String, String>> {
                         card_hm.insert(iface_name, mac_address.to_owned());
                     }
                 }
-            },
+            }
             _ => {
                 crit!("No network cards detected from {}", NET_CARDS_ROOT_PATH);
             }

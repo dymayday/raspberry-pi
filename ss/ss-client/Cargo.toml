@@ -6,4 +6,10 @@ edition = "2018"
 
 [dependencies]
 chrono = { version = "0.4", features = ["serde"] }
-wifiscanner = "0.3.*"
+wifiscanner = { git = "https://github.com/dymayday/wifiscanner.git", version = "0.4.*" }
+walkdir = "2"
+# Here we have all our logging capability
+slog = "2.4.1"
+slog-term = "2.4.0"
+slog-async = "2.3.0"
+slog-scope = "4.0.1"

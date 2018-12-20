@@ -9,14 +9,26 @@ pub use self::wifi::Wifi;
 use std::collections::HashMap;
 use std::io::Read;
 use crate::error::GenResult;
+use std::path::PathBuf;
+// use dirs;
+
 
 /// This is where we gather intel about the network capability of a Linux system.
 const NET_CARDS_ROOT_PATH: &str = "/sys/class/net/";
 
 pub trait Sensor {
+    /// Do the measurements.
     fn fetch(&mut self) -> Result<u32, SError>;
-    // fn write(&mut self) -> Result<()>;
-    fn store(&mut self) -> Result<(), SError>;
+    /// Stores the measurements on the disk or anywhere we want to.
+    fn store(&mut self) -> GenResult<()>;
+    /// Retrieve the path of the executable.
+    fn get_root_storage_path(&self) -> GenResult<PathBuf> {
+        // Ok(env::temp_dir())
+        // Ok( dirs::home_dir().unwrap_or_else(env::temp_dir) )
+        Ok( PathBuf::from("./") )
+    }
+    /// To JSON
+    fn to_json(&self) -> Result<String, SError>;
     // fn flush(&mut self) -> Result<()>;
     // fn pop(&mut self) -> Result<()>;
 }
@@ -27,6 +39,8 @@ pub trait Sensor {
 pub enum SError {
     /// Error from I/O, exp.: bad read, etc.
     IO,
+    /// Serializing trouble.
+    Serialize,
 }
 
 

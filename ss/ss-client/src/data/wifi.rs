@@ -4,13 +4,19 @@ extern crate chrono;
 
 use crate::data::Sensor;
 use chrono::prelude::*;
-// use std::io::Result as IOResult;
 use wifiscanner::{self, Wifi as AP}; // AP is short for Access Point
-// use crate::error::{GenResult, GenError};
+use crate::error::GenResult;
 use crate::data::SError;
+use std::io::{BufWriter, Write};
+
+
+/// The temporary directory where the measurements are stored before being send to the cloud.
+const MEASUREMENTS_TMP_DIR: &str = "ss-client_storage/";
+/// Extension file format.
+const EXT: &str = "json";
 
 /// This is the data structure representing all the intel we can, or need to gather about the wifi.
-#[derive(Clone,Debug)]
+#[derive(Clone,Debug,Serialize,Deserialize)]
 pub struct Wifi {
     /// The mac address of a wireless card. This will act as an universal id,
     /// taken into account that mac address is supposed to be unique in the known universe.
@@ -32,7 +38,7 @@ impl Wifi {
             mac: mac.to_string(),
             iface: iface.to_string(),
             index: Vec::new(),
-            values: Vec::new(),
+            values: Vec::with_capacity(64),
         }
     }
 
@@ -48,7 +54,11 @@ impl Sensor for Wifi {
     /// the campagn.
     fn fetch(&mut self) -> Result<u32, SError> {
         if let Ok(wscan) = wifiscanner::scan(&self.iface) {
-            println!("Scan from {}: {:#?}", &self.iface, wscan);
+            self.index = vec![Utc::now()];
+            self.values = wscan.to_owned();
+
+            // debug!("Scan from {}: {:#?}", &self.iface, wscan);
+            debug!("Dumping {} values from {}.", wscan.len(), &self.iface);
             Ok(wscan.len() as u32)
         } else {
             return Err(SError::IO)
@@ -57,7 +67,65 @@ impl Sensor for Wifi {
 
 
     /// Stores the mesurements from a Sensor on the disk.
-    fn store(&mut self) -> Result<(), SError> {
+    fn store(&mut self) -> GenResult<()> {
+        // The relative root path of the files containing the measurement
+        let sensors_dir = self.get_root_storage_path()?
+            .join(MEASUREMENTS_TMP_DIR)
+            .join(&self.mac);
+
+        // Let's compute our storage file name.
+        let file_name = sensors_dir.join(
+            format!("{}_{}.{}",
+                    &self.mac,
+                    Utc::now().format("%Y-%m-%dT%H:%M:%S"),
+                    EXT)
+            );
+        debug!("Storing the measurements in '{:?}'.", &file_name);
+
+        // Let's create the directory of our file if it doesn't exist already
+        use std::fs;
+        let basename = file_name.parent().unwrap();
+
+        if !basename.exists() {
+            // let basename = basename.to_string_lossy().replace(":", "");
+            fs::create_dir_all(basename)?;
+        }
+
+        // This is where we actually dump the values we previously measure
+        match fs::File::create(&file_name) {
+            Err(e) => {
+                crit!("Fail to create file '{:?}': {:?}.", &file_name, e)
+            }
+            Ok(file) => {
+                let mut buffer = BufWriter::new(file);
+                match buffer.write_all(self.to_json().unwrap().as_bytes()) {
+                    Ok(_) => (),
+                    Err(e) => {
+                        crit!("Fail to wite in '{:?}': {:?}.", &file_name, e)
+                    },
+                }
+            }
+        }
+
         Ok(())
     }
+
+
+    /// Serialize this data structure a JSON string.
+    fn to_json(&self) -> Result<String, SError> {
+        // match serde_json::to_string_pretty(&self) {
+        match serde_json::to_string(&self) {
+            Err(e) => {
+                crit!("Fail to serialize to JSON: '{:#?}' \
+                      \n>>{:?}.", &self, e);
+                Err(SError::Serialize)
+            },
+            Ok(o) => { Ok(o) }
+        }
+    }
 }
+
+// impl Write for Wifi {
+//     /// Write the data on whatever is writable: file on disk, net stream, etc.
+//     fn write_all(mut buf: &[u8])
+// }

@@ -17,6 +17,13 @@ extern crate slog_async;
 extern crate slog_scope;
 extern crate slog_term;
 
+extern crate serde;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_json;
+extern crate bincode;
+
+use std::{thread, time};
 use slog::Drain;
 use crate::data::Sensor;
 
@@ -47,11 +54,22 @@ fn main() {
     let ifaces_hm =
         data::list_network_interfaces().expect("Fail to list the network cards on the system.");
 
-    for (iface, mac) in &ifaces_hm {
-        debug!("Scan from '{}': {:#?}", iface, mac);
+    // For pragmatique reasons, we will implement this solution as a simple infinite loop, but a
+    // better approach would be to use an event loop to handle different frequency of measument for
+    // different sensor
+    loop {
+        for (iface, mac) in &ifaces_hm {
+            debug!("Scan from '{}': {:#?}", iface, mac);
 
-        let mut wifi = data::Wifi::new(iface, mac);
-        wifi.fetch()
-            .expect("Fail to fetch mesurement.");
+            let mut wifi = data::Wifi::new(iface, mac);
+            wifi.fetch()
+                .expect("Fail to fetch measurements.");
+            wifi.store()
+                .expect("Fail to store measurements.")
+        }
+
+        // Let's sleep for some time now
+        // Every 1h for now.
+        thread::sleep(time::Duration::from_secs(60 * 60));
     }
 }

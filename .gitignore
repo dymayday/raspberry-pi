@@ -14,4 +14,4 @@ ss/ss-client/Cargo.lock
 ss/ss-client/**/*.rs.bk
 
 # Let's ignore the storage facility of the ss-client
-ss/ss-client//ss-client_storage
+ss/ss-client/ss-client_storage/

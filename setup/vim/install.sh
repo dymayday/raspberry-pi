@@ -45,6 +45,6 @@ if [[ ! -s $VPDIR ]]; then
 fi
 
 # And then, let's install the plugins from the configuration file: 'vimrc'
-vim +PluginClean +qall
+vim +PlugClean +qall
 # vim +PluginInstall +qall
-vim +PluginUpdate +qall
+vim +PlugUpdate +qall

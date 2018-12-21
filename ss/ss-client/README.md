@@ -15,7 +15,7 @@ And it will install the programs we need (git, vim, etc.) and configure them.
 
 ## Headless setup
 
-In order to setup a *headless* Raspberry Pi with Raspbian OS, just copy the file [ss-client.service](file:://ss-client.service) to `/etc/systemd/system/ss-client.service` and run the following on the Raspberry Pi (the real headless setup will come when the dev of the all system is done):
+In order to setup a *headless* Raspberry Pi with Raspbian OS, just copy the file [ss-client.service](ss-client.service) to `/etc/systemd/system/ss-client.service` and run the following on the Raspberry Pi (the real headless setup will come when the dev of the all system is done):
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable ss-client.service

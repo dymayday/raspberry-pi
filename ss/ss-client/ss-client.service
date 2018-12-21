@@ -1,0 +1,13 @@
+[Unit]
+Description=ss-client service
+After=network.target
+After=systemd-user-sessions.service
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/junk/raspberry-pi/ss/ss-client/
+ExecStart=/home/pi/junk/raspberry-pi/ss/ss-client/target/release/ss-client
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

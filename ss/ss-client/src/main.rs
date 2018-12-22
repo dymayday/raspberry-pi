@@ -20,13 +20,13 @@ extern crate slog_term;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
-extern crate serde_json;
 extern crate bincode;
+extern crate serde_json;
 
-use std::{thread, time};
+use crate::data::Sensor;
 use slog::Drain;
 use std::fs::OpenOptions;
-use crate::data::Sensor;
+use std::{thread, time};
 
 mod data;
 mod error;
@@ -38,15 +38,17 @@ fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
 
 /// Initialises our log facility by setting it as async and the timestamp format.
 fn init_log() -> slog::Logger {
-
     // Let's write logs to a file for easy retrival.
-    let log_path = "ss-client_error.log";
+    let log_path = format!(
+        "ss-client_{}.log",
+        chrono::Utc::now().format("%Y-%m-%dT%H-%M-%S")
+    );
     let file = OpenOptions::new()
         .create(true)
-       .write(true)
-       .truncate(true)
-       .open(log_path)
-       .unwrap();
+        .write(true)
+        .truncate(true)
+        .open(log_path)
+        .unwrap();
     let decorator = slog_term::PlainDecorator::new(file);
 
     // Or on the console.
@@ -76,10 +78,8 @@ fn main() {
             debug!("Scan from '{}': {:#?}", iface, mac);
 
             let mut wifi = data::Wifi::new(iface, mac);
-            wifi.fetch()
-                .expect("Fail to fetch measurements.");
-            wifi.store()
-                .expect("Fail to store measurements.")
+            wifi.fetch().expect("Fail to fetch measurements.");
+            wifi.store().expect("Fail to store measurements.");
         }
 
         // Let's sleep for some time now

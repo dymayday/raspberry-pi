@@ -14,6 +14,7 @@ slog = "2.4.1"
 slog-term = "2.4.0"
 slog-async = "2.3.0"
 slog-scope = "4.0.1"
+# Here we have all our serialization capability
 bincode = "1.0.1"
 serde = "1.0.82"
 serde_derive = "1.0.82"

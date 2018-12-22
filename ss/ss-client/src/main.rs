@@ -84,6 +84,10 @@ fn main() {
 
         // Let's sleep for some time now
         // Every 1h for now.
-        thread::sleep(time::Duration::from_secs(60 * 60));
+        let sleep_time_sec = 60 * 60;
+        // let sleep_time_sec = 10;
+        debug!("Sleeping {}sec", sleep_time_sec);
+        thread::sleep(time::Duration::from_secs(sleep_time_sec));
+        debug!("---")
     }
 }

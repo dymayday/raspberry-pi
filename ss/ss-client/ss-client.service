@@ -1,15 +1,17 @@
 ; This should be copied to "/etc/systemd/system/ss-client.service"
 [Unit]
 Description=ss-client service
-Requires=systemd-networkd.socket
-After=systemd-networkd.socket
-After=systemd-user-sessions.service
+After=network.target
 
 [Service]
-User=pi
-WorkingDirectory=/home/pi/junk/raspberry-pi/ss/ss-client/
+; ExecStart=/home/pi/.cargo/bin/cargo run --release
 ExecStart=/home/pi/junk/raspberry-pi/ss/ss-client/target/release/ss-client
-Restart=on-failure
+WorkingDirectory=/home/pi/junk/raspberry-pi/ss/ss-client/
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=pi
 
 [Install]
 WantedBy=multi-user.target
+

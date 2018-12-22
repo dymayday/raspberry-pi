@@ -2,13 +2,12 @@
 
 extern crate chrono;
 
-use crate::data::Sensor;
-use chrono::prelude::*;
-use wifiscanner::{self, Wifi as AP}; // AP is short for Access Point
-use crate::error::GenResult;
 use crate::data::SError;
+use crate::data::Sensor;
+use crate::error::GenResult;
+use chrono::prelude::*;
 use std::io::{BufWriter, Write};
-
+use wifiscanner::{self, Wifi as AP}; // AP is short for Access Point
 
 /// The temporary directory where the measurements are stored before being send to the cloud.
 const MEASUREMENTS_TMP_DIR: &str = "ss-client_storage/";
@@ -16,7 +15,7 @@ const MEASUREMENTS_TMP_DIR: &str = "ss-client_storage/";
 const EXT: &str = "json";
 
 /// This is the data structure representing all the intel we can, or need to gather about the wifi.
-#[derive(Clone,Debug,Serialize,Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Wifi {
     /// The mac address of a wireless card. This will act as an universal id,
     /// taken into account that mac address is supposed to be unique in the known universe.
@@ -49,7 +48,6 @@ impl Wifi {
 }
 
 impl Sensor for Wifi {
-
     /// Runs a mesurement campagn from the 'Sensor' and returns the number of mesurement done during
     /// the campagn.
     fn fetch(&mut self) -> Result<u32, SError> {
@@ -61,25 +59,25 @@ impl Sensor for Wifi {
             debug!("Dumping {} values from {}.", wscan.len(), &self.iface);
             Ok(wscan.len() as u32)
         } else {
-            return Err(SError::IO)
+            return Err(SError::IO);
         }
     }
-
 
     /// Stores the mesurements from a Sensor on the disk.
     fn store(&mut self) -> GenResult<()> {
         // The relative root path of the files containing the measurement
-        let sensors_dir = self.get_root_storage_path()?
+        let sensors_dir = self
+            .get_root_storage_path()?
             .join(MEASUREMENTS_TMP_DIR)
             .join(&self.mac);
 
         // Let's compute our storage file name.
-        let file_name = sensors_dir.join(
-            format!("{}_{}.{}",
-                    &self.mac,
-                    Utc::now().format("%Y-%m-%dT%H:%M:%S"),
-                    EXT)
-            );
+        let file_name = sensors_dir.join(format!(
+            "{}_{}.{}",
+            &self.mac,
+            Utc::now().format("%Y-%m-%dT%H:%M:%S"),
+            EXT
+        ));
         debug!("Storing the measurements in '{:?}'.", &file_name);
 
         // Let's create the directory of our file if it doesn't exist already
@@ -93,16 +91,12 @@ impl Sensor for Wifi {
 
         // This is where we actually dump the values we previously measure
         match fs::File::create(&file_name) {
-            Err(e) => {
-                crit!("Fail to create file '{:?}': {:?}.", &file_name, e)
-            }
+            Err(e) => crit!("Fail to create file '{:?}': {:?}.", &file_name, e),
             Ok(file) => {
                 let mut buffer = BufWriter::new(file);
                 match buffer.write_all(self.to_json().unwrap().as_bytes()) {
                     Ok(_) => (),
-                    Err(e) => {
-                        crit!("Fail to wite in '{:?}': {:?}.", &file_name, e)
-                    },
+                    Err(e) => crit!("Fail to wite in '{:?}': {:?}.", &file_name, e),
                 }
             }
         }
@@ -110,17 +104,20 @@ impl Sensor for Wifi {
         Ok(())
     }
 
-
     /// Serialize this data structure a JSON string.
     fn to_json(&self) -> Result<String, SError> {
         // match serde_json::to_string_pretty(&self) {
         match serde_json::to_string(&self) {
             Err(e) => {
-                crit!("Fail to serialize to JSON: '{:#?}' \
-                      \n>>{:?}.", &self, e);
+                crit!(
+                    "Fail to serialize to JSON: '{:#?}' \
+                     \n>>{:?}.",
+                    &self,
+                    e
+                );
                 Err(SError::Serialize)
-            },
-            Ok(o) => { Ok(o) }
+            }
+            Ok(o) => Ok(o),
         }
     }
 }

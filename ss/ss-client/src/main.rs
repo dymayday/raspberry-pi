@@ -25,6 +25,7 @@ extern crate bincode;
 
 use std::{thread, time};
 use slog::Drain;
+use std::fs::OpenOptions;
 use crate::data::Sensor;
 
 mod data;
@@ -37,7 +38,20 @@ fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
 
 /// Initialises our log facility by setting it as async and the timestamp format.
 fn init_log() -> slog::Logger {
-    let decorator = slog_term::TermDecorator::new().build();
+
+    // Let's write logs to a file for easy retrival.
+    let log_path = "ss-client_error.log";
+    let file = OpenOptions::new()
+        .create(true)
+       .write(true)
+       .truncate(true)
+       .open(log_path)
+       .unwrap();
+    let decorator = slog_term::PlainDecorator::new(file);
+
+    // Or on the console.
+    // let decorator = slog_term::TermDecorator::new().build();
+
     let drain = slog_term::CompactFormat::new(decorator)
         .use_custom_timestamp(custom_timestamp_local)
         .build()

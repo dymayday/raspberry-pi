@@ -1,0 +1,121 @@
+{
+    "mac": "b8:27:eb:80:56:66",
+    "iface": "wlan0",
+    "index": [
+        "2018-12-23T12:02:03.995302354Z"
+    ],
+    "values": [
+        {
+            "mac": "00:16:FB:C9:C6:00",
+            "ssid": "CPL wifi 500_C9C600",
+            "channel": "1",
+            "signal_level": "-87",
+            "security": ""
+        },
+        {
+            "mac": "E4:9E:12:C8:54:14",
+            "ssid": "Freebox-A6C23B",
+            "channel": "3",
+            "signal_level": "-63",
+            "security": ""
+        },
+        {
+            "mac": "E4:9E:12:C8:54:16",
+            "ssid": "FreeWifi_secure",
+            "channel": "3",
+            "signal_level": "-63",
+            "security": ""
+        },
+        {
+            "mac": "E4:9E:12:C8:54:15",
+            "ssid": "FreeWifi",
+            "channel": "3",
+            "signal_level": "-65",
+            "security": ""
+        },
+        {
+            "mac": "8C:F5:A3:9B:95:6F",
+            "ssid": "...",
+            "channel": "6",
+            "signal_level": "-44",
+            "security": ""
+        },
+        {
+            "mac": "14:0C:76:68:42:2D",
+            "ssid": "Wiiperso",
+            "channel": "8",
+            "signal_level": "-66",
+            "security": ""
+        },
+        {
+            "mac": "00:19:70:46:80:59",
+            "ssid": "Livebox-71a1",
+            "channel": "1",
+            "signal_level": "-86",
+            "security": ""
+        },
+        {
+            "mac": "A2:39:EE:92:F0:DF",
+            "ssid": "La toile du Chat",
+            "channel": "1",
+            "signal_level": "-91",
+            "security": ""
+        },
+        {
+            "mac": "40:65:A3:D0:10:8E",
+            "ssid": "Livebox-108E",
+            "channel": "6",
+            "signal_level": "-76",
+            "security": ""
+        },
+        {
+            "mac": "12:65:A3:D0:10:8E",
+            "ssid": "orange",
+            "channel": "6",
+            "signal_level": "-76",
+            "security": ""
+        },
+        {
+            "mac": "F4:6B:EF:67:DB:7E",
+            "ssid": "SFR-Mike-db78",
+            "channel": "6",
+            "signal_level": "-94",
+            "security": ""
+        },
+        {
+            "mac": "00:24:D4:50:06:0C",
+            "ssid": "graphite",
+            "channel": "9",
+            "signal_level": "-95",
+            "security": ""
+        },
+        {
+            "mac": "48:83:C7:AF:A1:B6",
+            "ssid": "SFR-a1b0",
+            "channel": "11",
+            "signal_level": "-92",
+            "security": ""
+        },
+        {
+            "mac": "2C:79:D7:40:21:90",
+            "ssid": "Bbox-C740656C",
+            "channel": "11",
+            "signal_level": "-90",
+            "security": ""
+        },
+        {
+            "mac": "CA:FB:1E:B1:CA:2C",
+            "ssid": "SOUCHON",
+            "channel": "11",
+            "signal_level": "-93",
+            "security": ""
+        },
+        {
+            "mac": "CA:FB:1E:B1:CA:2E",
+            "ssid": "FreeWifi_secure",
+            "channel": "11",
+            "signal_level": "-91",
+            "security": ""
+        }
+    ]
+}

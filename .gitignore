@@ -18,3 +18,10 @@ ss/ss-client/ss-client_storage/
 
 # Let's ignonre the log files as well.
 ss/ss-client/*.log
+
+# Ignore the web viz package files.
+ss/ss-server/dist/*
+ss/ss-server/node_modules/*
+
+# Ignore node package lockfile.
+ss/ss-server/package-lock.json

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>SS wifi network sniffer viewer</title>
+
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <link type="text/css" rel="stylesheet" href="stylesheets/bootstrap.min.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="stylesheets/bootstrap-responsive.min.css" rel="stylesheet">
+        <link href='http://fonts.googleapis.com/css?family=Rosario:400,700' rel='stylesheet' type='text/css'>
+        <link type="text/css" rel="stylesheet" href="stylesheets/style.css"/>
+
+    </head>
+    <body>
+        <div id="example"></div>
+
+        <!-- Dependencies -->
+        <script src="./node_modules/react/umd/react.development.js"></script>
+        <script src="./node_modules/react-dom/umd/react-dom.development.js"></script>
+        <script src="./node_modules/d3/dist/d3.js"></script>
+
+        <!-- Main -->
+        <!-- <script src="./dist/bundle.js"></script> -->
+        <h1>Sniffer Visualizer!</h1>
+
+    <div class="content">
+        <div class="container">
+          <form class="form-inline">
+            <fieldset>
+            <label>Example projects from GitHub:</label>
+            <select id="project">
+              <option value="example/b8:27:eb:80:56:66_2018-12-23T12:02:03.json">sniffed wifi</option>
+              <option value="data/uptime.json">fzaninotto / uptime</option>
+              <option value="data/faker.json">fzaninotto / faker</option>
+              <option value="data/jquery.json">jquery / jquery</option>
+              <option value="example/b8:27:eb:80:56:66_2018-12-23T12:02:03.json">sniffed wifi</option>
+              <!-- <option value="data/twig.json">fabpot / twig</option>
+              <option value="data/lichess.json">ornicar / lila</option>
+              <option value="data/propel2.json">propelorm / Propel2</option>
+              <option value="data/doctrine2.json">doctrine / doctrine2</option>
+              <option value="data/wordpress.json">WordPress / WordPress</option>
+              <option value="data/rails.json">rails / rails</option>
+              <option value="data/symfony.json">symfony / symfony (WARNING: will make your computer scream)</option>
+              <option value="data/zf2.json">zendframework / zf2 (WARNING: will make your computer scream</option> -->
+            </select>
+            </fieldset>
+          </form>
+
+          <div id="visualization"></div>
+
+          <h2>Input data format</h2>
+          <p>The <code>jsonData</code> format taken as input to <code>update()</code> is extremely simple. It's a JavaScript object representing a file tree structure. Each node must have a <code>name</code> (the file or directory name), leaf nodes must have a <code>size</code> (the number of lines of code or the file), and directory nodes must have a <code>children</code> property containing an array of nodes. As an example, here is the input for the currently displayed CodeFlower. You can modify it at will and click the update button to see the effect of your changes on the CodeFlower.</p>
+          <form id="jsonInput">
+          <fieldset>
+            <textarea id="jsonData"></textarea>
+            <div class="pull-right">
+              <button type="submit" class="btn btn-primary btn-large">Update</button>
+            </div>
+          </fieldset>
+          </form>
+
+        </div>
+      </div>
+      
+      <script type="text/javascript" src="src/components/d3/d3.js"></script>
+      <script type="text/javascript" src="src/components/d3/d3.geom.js"></script>
+      <script type="text/javascript" src="src/components/d3/d3.layout.js"></script>
+      <script type="text/javascript" src="src/components/CodeFlower.js"></script>
+      <script type="text/javascript" src="src/components/dataConverter.js"></script>
+
+      <script type="text/javascript" src="src/components/renderer.js"></script>
+
+    </body>
+</html>

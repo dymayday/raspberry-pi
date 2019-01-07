@@ -31,6 +31,10 @@ use std::{thread, time};
 mod data;
 mod error;
 
+// The directory where all the logs will be stored.
+const LOG_DIR: &str = "log";
+
+
 /// Set a custom pretty timestamp format for the logging part.
 fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
     write!(io, "{}", chrono::Utc::now().format("%Y-%m-%d %H:%M:%S"))
@@ -40,9 +44,17 @@ fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
 fn init_log() -> slog::Logger {
     // Let's write logs to a file for easy retrival.
     let log_path = format!(
-        "log/ss-client_{}.log",
+        "{}/ss-client_{}.log",
+        &LOG_DIR,
         chrono::Utc::now().format("%Y-%m-%dT%H-%M-%S")
     );
+
+    // Creates the log directory if it doesn't exist.
+    let directory_path = std::path::Path::new(&LOG_DIR);
+    if !directory_path.exists() {
+        std::fs::create_dir_all(directory_path).expect("Fail to create the log directory.");
+    }
+
     let file = OpenOptions::new()
         .create(true)
         .write(true)

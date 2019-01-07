@@ -40,7 +40,7 @@ fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
 fn init_log() -> slog::Logger {
     // Let's write logs to a file for easy retrival.
     let log_path = format!(
-        "ss-client_{}.log",
+        "log/ss-client_{}.log",
         chrono::Utc::now().format("%Y-%m-%dT%H-%M-%S")
     );
     let file = OpenOptions::new()

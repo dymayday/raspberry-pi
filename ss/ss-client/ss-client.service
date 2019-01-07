@@ -1,11 +1,20 @@
 ; This should be copied to "/etc/systemd/system/ss-client.service"
 [Unit]
 Description=ss-client service
-After=network.target
+; After=network.target
+; Wait for the network to be up and running in order to
+; have an updated/accurate timestamp.
+After=network-online.target
+Wants=network-online.target
 
 [Service]
 ; ExecStart=/home/pi/.cargo/bin/cargo run --release
-ExecStart=/home/pi/junk/raspberry-pi/ss/ss-client/target/release/ss-client
+; ExecStart=/home/pi/junk/raspberry-pi/ss/ss-client/target/release/ss-client
+; Use the Rust's package manager 'Cargo' to compile and run the service.
+; Here we use the debug version of the program so we can enjoy the
+; 'incremental compilation' and reduce the compilation time during this 
+; development period.
+ExecStart=/home/pi/.cargo/bin/cargo run
 WorkingDirectory=/home/pi/junk/raspberry-pi/ss/ss-client/
 StandardOutput=inherit
 StandardError=inherit

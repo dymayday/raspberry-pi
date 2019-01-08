@@ -25,3 +25,6 @@ ss/ss-server/node_modules/*
 
 # Ignore node package lockfile.
 ss/ss-server/package-lock.json
+
+# Ignore the AWS IoT certificates.
+ss/ss-client/certificates/*.pem*

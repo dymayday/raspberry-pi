@@ -40,29 +40,29 @@ fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
 
 /// Initialises our log facility by setting it as async and the timestamp format.
 fn init_log() -> slog::Logger {
-    // Let's logging on the console.
-    let decorator = slog_term::TermDecorator::new().build();
+    // // Let's logging on the console.
+    // let decorator = slog_term::TermDecorator::new().build();
 
-    // // Or write logs to a file for easy retrival.
-    // let log_path = format!(
-    //     "{}/ss-client_{}.log",
-    //     &LOG_DIR,
-    //     chrono::Utc::now().format("%Y-%m-%dT%H-%M-%S")
-    // );
-    //
-    // // Creates the log directory if it doesn't exist.
-    // let directory_path = std::path::Path::new(&LOG_DIR);
-    // if !directory_path.exists() {
-    //     std::fs::create_dir_all(directory_path).expect("Fail to create the log directory.");
-    // }
-    //
-    // let file = std::fs::OpenOptions::new()
-    //     .create(true)
-    //     .write(true)
-    //     .truncate(true)
-    //     .open(log_path)
-    //     .unwrap();
-    // let decorator = slog_term::PlainDecorator::new(file);
+    // Or write logs to a file for easy retrival.
+    let log_path = format!(
+        "{}/ss-client_{}.log",
+        &LOG_DIR,
+        chrono::Utc::now().format("%Y-%m-%dT%H-%M-%S")
+    );
+
+    // Creates the log directory if it doesn't exist.
+    let directory_path = std::path::Path::new(&LOG_DIR);
+    if !directory_path.exists() {
+        std::fs::create_dir_all(directory_path).expect("Fail to create the log directory.");
+    }
+
+    let file = std::fs::OpenOptions::new()
+        .create(true)
+        .write(true)
+        .truncate(true)
+        .open(log_path)
+        .unwrap();
+    let decorator = slog_term::PlainDecorator::new(file);
 
     let drain = slog_term::CompactFormat::new(decorator)
         .use_custom_timestamp(custom_timestamp_local)

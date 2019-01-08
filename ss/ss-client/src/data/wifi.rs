@@ -64,7 +64,7 @@ impl Sensor for Wifi {
     }
 
     /// Stores the mesurements from a Sensor on the disk.
-    fn store(&mut self) -> GenResult<()> {
+    fn store(&mut self) -> GenResult<String> {
         // The relative root path of the files containing the measurement
         let sensors_dir = self
             .get_root_storage_path()?
@@ -101,7 +101,7 @@ impl Sensor for Wifi {
             }
         }
 
-        Ok(())
+        Ok(file_name.to_string_lossy().to_string())
     }
 
     /// Serialize this data structure a JSON string.
@@ -119,6 +119,27 @@ impl Sensor for Wifi {
             }
             Ok(o) => Ok(o),
         }
+    }
+
+    /// Update shadow thing state using the MQTT protocol.
+    fn update_shadow_thing(&self, json_path: &str) -> Result<String, SError> {
+        use std::process::Command;
+
+        let res = match Command::new("python3")
+                .arg("src/aws-iot-update-shadow.py")
+                .arg(json_path.clone())
+                .arg("")
+                .spawn() {
+                    Err(e) => {
+                        crit!("Fail to submit data using Python SDK: \
+                              \n>>{:#?}",
+                              e);
+                       Err(SError::MQTT)
+                    }
+                    Ok(o) => Ok(o)
+                };
+
+        Ok(format!("{:#?}", res.unwrap()))
     }
 }
 

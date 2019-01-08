@@ -19,7 +19,7 @@ pub trait Sensor {
     /// Do the measurements.
     fn fetch(&mut self) -> Result<u32, SError>;
     /// Stores the measurements on the disk or anywhere we want to.
-    fn store(&mut self) -> GenResult<()>;
+    fn store(&mut self) -> GenResult<String>;
     /// Retrieve the path of the executable.
     fn get_root_storage_path(&self) -> GenResult<PathBuf> {
         // Ok(env::temp_dir())
@@ -28,6 +28,8 @@ pub trait Sensor {
     }
     /// To JSON
     fn to_json(&self) -> Result<String, SError>;
+    /// Update the device shadow state on AWS IoT server
+    fn update_shadow_thing(&self, json_path: &str) -> Result<String, SError>;
     // fn flush(&mut self) -> Result<()>;
     // fn pop(&mut self) -> Result<()>;
 }
@@ -39,6 +41,8 @@ pub enum SError {
     IO,
     /// Serializing trouble.
     Serialize,
+    /// MQTT error wrapper.
+    MQTT,
 }
 
 /// List all the available network card on the system along with their mac addresses.

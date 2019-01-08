@@ -25,7 +25,6 @@ extern crate serde_json;
 
 use crate::data::Sensor;
 use slog::Drain;
-use std::fs::OpenOptions;
 use std::{thread, time};
 
 mod data;
@@ -34,7 +33,6 @@ mod error;
 // The directory where all the logs will be stored.
 const LOG_DIR: &str = "log";
 
-
 /// Set a custom pretty timestamp format for the logging part.
 fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
     write!(io, "{}", chrono::Utc::now().format("%Y-%m-%d %H:%M:%S"))
@@ -42,29 +40,29 @@ fn custom_timestamp_local(io: &mut ::std::io::Write) -> ::std::io::Result<()> {
 
 /// Initialises our log facility by setting it as async and the timestamp format.
 fn init_log() -> slog::Logger {
-    // Let's write logs to a file for easy retrival.
-    let log_path = format!(
-        "{}/ss-client_{}.log",
-        &LOG_DIR,
-        chrono::Utc::now().format("%Y-%m-%dT%H-%M-%S")
-    );
+    // Let's logging on the console.
+    let decorator = slog_term::TermDecorator::new().build();
 
-    // Creates the log directory if it doesn't exist.
-    let directory_path = std::path::Path::new(&LOG_DIR);
-    if !directory_path.exists() {
-        std::fs::create_dir_all(directory_path).expect("Fail to create the log directory.");
-    }
-
-    let file = OpenOptions::new()
-        .create(true)
-        .write(true)
-        .truncate(true)
-        .open(log_path)
-        .unwrap();
-    let decorator = slog_term::PlainDecorator::new(file);
-
-    // Or on the console.
-    // let decorator = slog_term::TermDecorator::new().build();
+    // // Or write logs to a file for easy retrival.
+    // let log_path = format!(
+    //     "{}/ss-client_{}.log",
+    //     &LOG_DIR,
+    //     chrono::Utc::now().format("%Y-%m-%dT%H-%M-%S")
+    // );
+    //
+    // // Creates the log directory if it doesn't exist.
+    // let directory_path = std::path::Path::new(&LOG_DIR);
+    // if !directory_path.exists() {
+    //     std::fs::create_dir_all(directory_path).expect("Fail to create the log directory.");
+    // }
+    //
+    // let file = std::fs::OpenOptions::new()
+    //     .create(true)
+    //     .write(true)
+    //     .truncate(true)
+    //     .open(log_path)
+    //     .unwrap();
+    // let decorator = slog_term::PlainDecorator::new(file);
 
     let drain = slog_term::CompactFormat::new(decorator)
         .use_custom_timestamp(custom_timestamp_local)
@@ -91,7 +89,12 @@ fn main() {
 
             let mut wifi = data::Wifi::new(iface, mac);
             wifi.fetch().expect("Fail to fetch measurements.");
-            wifi.store().expect("Fail to store measurements.");
+            let json_path = wifi.store().expect("Fail to store measurements.");
+
+            debug!("Updating the thing shadow state...");
+            let res = wifi.update_shadow_thing(&json_path)
+                .expect("Fail to update shadow thing state.");
+            debug!("Update = {}", res);
         }
 
         // Let's sleep for some time now

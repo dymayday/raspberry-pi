@@ -12,17 +12,17 @@ HOST_NAME = "aofc4c78kezrh-ats.iot.eu-west-2.amazonaws.com"
 
 # The relative path to the correct root CA file for AWS IoT, 
 # which you have already saved onto this device.
-ROOT_CA = "SsRPi/AmazonRootCA1.pem"
+ROOT_CA = "certificates/AmazonRootCA1.pem"
 
 # The relative path to your private key file that 
 # AWS IoT generated for this device, which you 
 # have already saved onto this device.
-PRIVATE_KEY = "SsRPi/40df25d882-private.pem.key"
+PRIVATE_KEY = "certificates/40df25d882-private.pem.key"
 
 # The relative path to your certificate file that 
 # AWS IoT generated for this device, which you 
 # have already saved onto this device.
-CERT_FILE = "SsRPi/40df25d882-certificate.pem.crt"
+CERT_FILE = "certificates/40df25d882-certificate.pem.crt"
 
 # A programmatic shadow handler name prefix.
 SHADOW_HANDLER = "SsRPi"

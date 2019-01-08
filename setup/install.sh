@@ -21,9 +21,10 @@ else
 fi
 
 # Let's install the programs now
-PACKAGES="vim neovim htop git openssl libssl-dev zsh tmux cmake bluez bluez-hcidump bluez-tools libpcap-dev time"
+PACKAGES="vim neovim htop git openssl libssl-dev zsh tmux cmake bluez bluez-hcidump bluez-tools libpcap-dev time python3-pip"
 echo "Installing ${PACKAGES}..."
 $PACMAN $PACKAGES
+pip3 install AWSIoTPythonSDK
 
 # Let's loop on every section's directory and run their install script
 declare -a section_array=("terminal" "tmux" "vim" "rust")

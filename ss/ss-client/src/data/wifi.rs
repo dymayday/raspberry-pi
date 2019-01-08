@@ -129,6 +129,9 @@ impl Sensor for Wifi {
                 .arg("src/aws-iot-update-shadow.py")
                 .arg(json_path.clone())
                 .arg("")
+                // .output().unwrap_or_else(|e| {
+                // panic!("failed to execute process: {}", e)
+                // });
                 .spawn() {
                     Err(e) => {
                         crit!("Fail to submit data using Python SDK: \
@@ -139,11 +142,7 @@ impl Sensor for Wifi {
                     Ok(o) => Ok(o)
                 };
 
+        // Ok(format!("{:#?}", res))
         Ok(format!("{:#?}", res.unwrap()))
     }
 }
-
-// impl Write for Wifi {
-//     /// Write the data on whatever is writable: file on disk, net stream, etc.
-//     fn write_all(mut buf: &[u8])
-// }

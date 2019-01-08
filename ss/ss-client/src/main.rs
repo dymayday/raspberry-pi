@@ -92,9 +92,8 @@ fn main() {
             let json_path = wifi.store().expect("Fail to store measurements.");
 
             debug!("Updating the thing shadow state...");
-            let res = wifi.update_shadow_thing(&json_path)
+            wifi.update_shadow_thing(&json_path)
                 .expect("Fail to update shadow thing state.");
-            debug!("Update = {}", res);
         }
 
         // Let's sleep for some time now
@@ -103,6 +102,6 @@ fn main() {
         // let sleep_time_sec = 10;
         debug!("Sleeping {}sec", sleep_time_sec);
         thread::sleep(time::Duration::from_secs(sleep_time_sec));
-        debug!("---")
+        debug!("---");
     }
 }

@@ -32,7 +32,7 @@ def myShadowUpdateCallback(payload, responseStatus, token):
   print()
   print('UPDATE: $aws/things/' + SHADOW_HANDLER +
     '/shadow/update/#')
-  print("payload = " + payload)
+  # print("payload = " + payload)
   print("responseStatus = " + responseStatus)
   print("token = " + token)
 

@@ -4,7 +4,8 @@ from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTShadowClient
 import random, time
 
 # A random programmatic shadow client ID.
-SHADOW_CLIENT = "SsRPihadowClient"
+SHADOW_CLIENT = "SsRPiShadowClient"
+SHADOW_CLIENT = "SsRPi"
 
 # The unique hostname that AWS IoT generated for 
 # this device.
@@ -52,13 +53,24 @@ myDeviceShadow = myShadowClient.createShadowHandlerWithName(
 # let's send a JSON payload from the argument command line.
 import sys
 import json
+# import datetime
 
 # payload = sys.argv[1]
 with open(sys.argv[1]) as f:
     payload = json.load(f)
+
+# dt = datetime.datetime.now()
+# payload = '{"state": {"reported": {"date": "%s", "sniff": "%s"}}}' % (
+#     dt.strftime("%Y-%m-%dT%H:%M:%S"),
+#     # int((dt-datetime.datetime(1970,1,1)).total_seconds()),
+#     "payload")
+#     # payload)
+# payload = '{"state": {"reported": {"serialNumber" : "ABCDEFG12345", "batteryVoltage" : "2000mV", "clickType" : "SINGLE"}}}'
+#
 # print("payload =", payload)
 
 myDeviceShadow.shadowUpdate(
+    # payload,
     '{"state": {"reported": {"sniff": "%s"}}}' % payload,
     myShadowUpdateCallback, 5)
 

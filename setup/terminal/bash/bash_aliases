@@ -17,6 +17,9 @@ alias cargo="CARGO_INCREMENTAL=1 TERM=xterm-color cargo"
 alias update-rust="bash ~/junk/repo/bearded-happiness/rust/rust_update.sh"
 alias reset_rust="rm -rf ~/.cargo/* ~/.rustup/* ~/.multirust/* ; ~/junk/repo/bearded-happiness/rust/rust_install.sh ; update-neovim"
 
+# Python aliases
+alias ignite-python='export PYENV_ROOT="$HOME/.pyenv" && export PATH="$PYENV_ROOT/bin:$PATH"'
+
 # NeoVim part
 alias nv="nvim"
 alias neovimconfig="nvim ~/.config/nvim/init.vim"

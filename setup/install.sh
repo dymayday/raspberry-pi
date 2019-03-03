@@ -21,7 +21,9 @@ else
 fi
 
 # Let's install the programs now
-PACKAGES="vim neovim htop git openssl libssl-dev zsh tmux cmake bluez bluez-hcidump bluez-tools libpcap-dev time python3-pip"
+PACKAGES="vim neovim htop git openssl libssl-dev zsh tmux cmake \
+    bluez bluez-hcidump bluez-tools libpcap-dev time python3-pip \
+    python-pkg-resources libffi-dev pipenv"
 echo "Installing ${PACKAGES}..."
 $PACMAN $PACKAGES
 pip3 install AWSIoTPythonSDK
